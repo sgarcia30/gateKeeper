@@ -65,6 +65,14 @@ const USERS = [
 //     (aka, `req.user = matchedUser`)
 function gateKeeper(req, res, next) {
   // your code should replace the line below
+  let strHd = req.get('x-username-and-password');
+  let qstr = queryString.parse(strHd);
+  console.log(qstr);
+  let creds = USERS.find(function(userInfo) {
+    return userInfo.userName === qstr.user && userInfo.password === qstr.pass;
+  });
+  
+  req.user = creds;
   next();
 }
 
